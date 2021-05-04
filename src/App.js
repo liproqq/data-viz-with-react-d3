@@ -1,25 +1,19 @@
-import logo from './logo.svg';
+import { useState, useEffect } from 'react';
+import { csv } from 'd3';
 import './App.css';
+import { message } from './message';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const csvUrl = 'https://gist.githubusercontent.com/curran/b236990081a24761f7000567094914e0/raw/cssNamedColors.csv';
+
+const App = () => {
+  const [data, setData] = useState(null);
+
+  useEffect(() => {
+    csv(csvUrl).then(setData)
+    console.log("loading data")
+  }, [])
+
+  return <div>Data is: {data ? message(data) : 'loading'}</div>
+};
 
 export default App;
