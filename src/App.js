@@ -1,4 +1,4 @@
-import { scaleLinear, extent, format } from 'd3';
+import { scaleLinear, scaleTime, extent, format, timeFormat } from 'd3';
 import './App.css';
 import { AxisBottom } from './AxisBottom';
 import { AxisLeft } from './AxisLeft';
@@ -18,12 +18,12 @@ const App = () => {
     return <pre>Loading</pre>
   }
 
-  const xValue = d => d.sepal_length
-  const xAxisLabel = 'Sepal Length'
+  const xValue = d => d.timestamp
+  const xAxisLabel = 'Time'
   const xAxisLabelOffset = 50;
 
-  const yValue = d => d.sepal_width
-  const yAxisLabel = 'Sepal Width'
+  const yValue = d => d.temperature
+  const yAxisLabel = 'Temperature'
   const yAxisLabelOffset = 50;
 
   const xScale = scaleLinear()
@@ -33,7 +33,8 @@ const App = () => {
 
   const yScale = scaleLinear()
     .domain(extent(data, yValue))
-    .range([0, innerHeight])
+    .range([innerHeight, 0])
+    .nice()
 
   return (
     <svg width={width} height={height}>
@@ -41,7 +42,7 @@ const App = () => {
         <AxisBottom
           xScale={xScale}
           innerHeight={innerHeight}
-          tickFormat={format(".2s")} />
+          tickFormat={timeFormat("%a")} />
         <AxisLeft
           innerWidth={innerWidth}
           yScale={yScale}
