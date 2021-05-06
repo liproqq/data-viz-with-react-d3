@@ -1,12 +1,9 @@
 export const Marks = ({ data, xScale, yScale, xValue, yValue }) =>
-  data.map(d => <rect
+  data.map(d => <circle
     className="mark"
-    key={yValue(d)}
-    x={0}
-    y={yScale(yValue(d))}
-
-    width={xScale(xValue(d))}
-    height={yScale.bandwidth()}>
+    cx={xScale(xValue(d))}
+    cy={yScale(yValue(d))}
+    r={10}>
     <title>{xValue(d)}</title>
-  </rect>
+  </circle>
   );

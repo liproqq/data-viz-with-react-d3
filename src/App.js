@@ -1,4 +1,4 @@
-import { scaleBand, scaleLinear, max, format } from 'd3';
+import { scaleLinear, extent, format } from 'd3';
 import './App.css';
 import { AxisBottom } from './AxisBottom';
 import { AxisLeft } from './AxisLeft';
@@ -7,8 +7,7 @@ import { useData } from './useData';
 
 const width = 960
 const height = 500
-const margin = { top: 20, right: 30, bottom: 70, left: 220 };
-const xAxisLabelOffset = 50;
+const margin = { top: 20, right: 30, bottom: 70, left: 100 };
 const innerHeight = height - margin.top - margin.bottom
 const innerWidth = width - margin.left - margin.right
 
@@ -19,17 +18,22 @@ const App = () => {
     return <pre>Loading</pre>
   }
 
-  const xValue = d => d.Population
-  const yValue = d => d.Country
+  const xValue = d => d.sepal_length
+  const xAxisLabel = 'Sepal Length'
+  const xAxisLabelOffset = 50;
+
+  const yValue = d => d.sepal_width
+  const yAxisLabel = 'Sepal Width'
+  const yAxisLabelOffset = 50;
 
   const xScale = scaleLinear()
-    .domain([0, max(data, xValue)])
+    .domain(extent(data, xValue))
     .range([0, innerWidth])
+    .nice()
 
-  const yScale = scaleBand()
-    .domain(data.map(yValue))
+  const yScale = scaleLinear()
+    .domain(extent(data, yValue))
     .range([0, innerHeight])
-    .paddingInner(.1)
 
   return (
     <svg width={width} height={height}>
@@ -38,14 +42,29 @@ const App = () => {
           xScale={xScale}
           innerHeight={innerHeight}
           tickFormat={format(".2s")} />
-        <AxisLeft yScale={yScale} />
+        <AxisLeft
+          innerWidth={innerWidth}
+          yScale={yScale}
+        />
         <text
           className="axis-label"
           textAnchor="middle"
           x={innerWidth / 2}
           y={innerHeight + xAxisLabelOffset}
         >
-          Population
+          {xAxisLabel}
+        </text>
+        <text
+          className="axis-label"
+          textAnchor="middle"
+          transform={
+            `translate(
+            ${-yAxisLabelOffset},
+            ${innerHeight / 2}) 
+            rotate(-90)`
+          }
+        >
+          {yAxisLabel}
         </text>
         <Marks
           data={data}

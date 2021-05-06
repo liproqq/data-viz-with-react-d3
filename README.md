@@ -1,3 +1,5 @@
-A program that loads in some [data about CSS named colors](https://gist.github.com/curran/b236990081a24761f7000567094914e0) using D3 utilities, and uses React to render the data as a radial burst!
+This is the "Iris" dataset. Originally published at UCI Machine Learning Repository: Iris Data Set, this small dataset from 1936 is often used for testing out machine learning algorithms and visualizations (for example, Scatter Plot). Each row of the table represents an iris flower, including its species and dimensions of its botanical parts, sepal and petal, in centimeters.
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/KHmaEse5WSI" frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+The HTML page provides the basic code required to load the data and display it on the page (as JSON) using D3.js.
+
+For a more up to date code example with React & D3, see (VizHub: Stylized Scatter Plot)[https://vizhub.com/curran/3d631093c2334030a6b27fa979bb4a0d?edit=files&file=index.js].
