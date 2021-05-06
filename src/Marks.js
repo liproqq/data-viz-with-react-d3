@@ -1,21 +1,18 @@
-import { line, curveNatural } from "d3-shape";
+import { geoEqualEarth, geoPath, geoGraticule } from "d3";
 
-export const Marks = ({ data, xScale, yScale, xValue, yValue }) =>
-  <g className="mark">
-    <path
-      fill="none"
-      stroke="black"
-      d={line()
-        .x(d => xScale(xValue(d)))
-        .y(d => yScale(yValue(d)))
-        .curve(curveNatural)(data)}
-    />
-    {
-      // data.map(d =>
-      // (<circle
-      //   cx={xScale(xValue(d))}
-      //   cy={yScale(yValue(d))}
-      //   r={4} />)
-      // )
-    }
-  </g>;
+const projection = geoEqualEarth()
+const path = (geoPath(projection))
+const graticule = geoGraticule()
+
+export const Marks = ({ data: { countries, interiors } }) => (
+
+  <g className="mark" >
+    <path className="sphere" d={path({ type: "Sphere" })} />
+    <path className="graticule" d={path(graticule())} />
+    {countries.features.map(feature =>
+    (<path className="country" d={path(feature)} />
+    ))}
+    <path className="interiors" d={path(interiors)} />
+    )
+  </g>
+);
