@@ -1,4 +1,4 @@
-import { scaleBand, scaleLinear, max } from 'd3';
+import { scaleBand, scaleLinear, max, format } from 'd3';
 import './App.css';
 import { AxisBottom } from './AxisBottom';
 import { AxisLeft } from './AxisLeft';
@@ -7,7 +7,8 @@ import { useData } from './useData';
 
 const width = 960
 const height = 500
-const margin = { top: 20, right: 20, bottom: 20, left: 200 };
+const margin = { top: 20, right: 30, bottom: 70, left: 220 };
+const xAxisLabelOffset = 50;
 const innerHeight = height - margin.top - margin.bottom
 const innerWidth = width - margin.left - margin.right
 
@@ -28,12 +29,24 @@ const App = () => {
   const yScale = scaleBand()
     .domain(data.map(yValue))
     .range([0, innerHeight])
+    .paddingInner(.1)
 
   return (
     <svg width={width} height={height}>
       <g transform={`translate(${margin.left}, ${margin.right})`}>
-        <AxisBottom xScale={xScale} innerHeight={innerHeight} />
+        <AxisBottom
+          xScale={xScale}
+          innerHeight={innerHeight}
+          tickFormat={format(".2s")} />
         <AxisLeft yScale={yScale} />
+        <text
+          className="axis-label"
+          textAnchor="middle"
+          x={innerWidth / 2}
+          y={innerHeight + xAxisLabelOffset}
+        >
+          Population
+        </text>
         <Marks
           data={data}
           xScale={xScale}
