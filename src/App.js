@@ -1,9 +1,11 @@
 import { useState } from 'react'
+import Dropdown from 'react-dropdown';
+import 'react-dropdown/style.css';
 import { scaleLinear, extent, format } from 'd3';
 import './App.css';
 import { AxisBottom } from './AxisBottom';
 import { AxisLeft } from './AxisLeft';
-import { Dropdown } from './Dropdown';
+// import { Dropdown } from './Dropdown';
 import { Marks } from './Marks';
 import { useData } from './useData';
 
@@ -56,17 +58,15 @@ const App = () => {
     <>
       <Dropdown
         options={attributes}
-        id="x-select"
-        selectedValue={xAttribute}
-        onSelectedValueChange={setXAttribute}
-        labelText="X:"
+        value={yAttribute}
+        onChange={({ value }) => setYAttribute(value)}
+        labelText="Y:"
       />
       <Dropdown
         options={attributes}
-        id="y-select"
-        selectedValue={yAttribute}
-        onSelectedValueChange={setYAttribute}
-        labelText="Y:"
+        value={xAttribute}
+        onChange={({ value }) => setXAttribute(value)}
+        labelText="X:"
       />
       <svg width={width} height={height}>
         <g transform={`translate(${margin.left}, ${margin.right})`}>
