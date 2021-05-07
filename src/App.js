@@ -29,12 +29,14 @@ const App = () => {
   const initialXAttribute = 'sepal_length'
   const initialYAttribute = 'sepal_width'
   const data = useData()
+  const [hoveredValue, setHoveredValue] = useState(null)
   const [xAttribute, setXAttribute] = useState(initialXAttribute)
   const [yAttribute, setYAttribute] = useState(initialYAttribute)
 
   if (!data) {
     return <pre>Loading</pre>
   }
+
 
 
   const xValue = d => d[xAttribute]
@@ -47,6 +49,8 @@ const App = () => {
 
   const colorValue = d => d.species
   const circleRadius = 10
+
+  const filteredData = data.filter(d => hoveredValue === colorValue(d))
 
   const xScale = scaleLinear()
     .domain(extent(data, xValue))
@@ -105,8 +109,20 @@ const App = () => {
           >
             {yAxisLabel}
           </text>
+          <g opacity={hoveredValue ? 0.2 : 1}>
+            <Marks
+              data={data}
+              xValue={xValue}
+              xScale={xScale}
+              yValue={yValue}
+              yScale={yScale}
+              colorScale={colorScale}
+              colorValue={colorValue}
+              circleRadius={circleRadius}
+            />
+          </g>
           <Marks
-            data={data}
+            data={filteredData}
             xValue={xValue}
             xScale={xScale}
             yValue={yValue}
@@ -120,6 +136,7 @@ const App = () => {
             tickSize={circleRadius}
             tickSpacing={30}
             tickTextOffset={20}
+            onHover={setHoveredValue}
           />
         </g>
       </svg>

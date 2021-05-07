@@ -5,6 +5,7 @@ body {
 }
 .tick line {
   stroke: C0C0BB;
+  cursor: default;
 }
 .tick text {
   fill: #635f5d;
