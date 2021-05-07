@@ -17,3 +17,6 @@ body {
   width: 50%;
   display: inline-block;
 }
+.color-legend {
+  fill: #635f5d;
+}

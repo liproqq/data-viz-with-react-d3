@@ -5,9 +5,9 @@ import { scaleLinear, extent, format, scaleOrdinal } from 'd3';
 import './App.css';
 import { AxisBottom } from './AxisBottom';
 import { AxisLeft } from './AxisLeft';
-// import { Dropdown } from './Dropdown';
 import { Marks } from './Marks';
 import { useData } from './useData';
+import { ColorLegend } from './ColorLegend'
 
 const width = 960
 const height = 500
@@ -46,6 +46,7 @@ const App = () => {
   const yAxisLabelOffset = 50;
 
   const colorValue = d => d.species
+  const circleRadius = 10
 
   const xScale = scaleLinear()
     .domain(extent(data, xValue))
@@ -79,7 +80,7 @@ const App = () => {
           <AxisBottom
             xScale={xScale}
             innerHeight={innerHeight}
-            tickFormat={format(".2s")} />
+            tickFormat={format("")} />
           <AxisLeft
             innerWidth={innerWidth}
             yScale={yScale}
@@ -112,6 +113,13 @@ const App = () => {
             yScale={yScale}
             colorScale={colorScale}
             colorValue={colorValue}
+            circleRadius={circleRadius}
+          />
+          <ColorLegend
+            colorScale={colorScale}
+            tickSize={circleRadius}
+            tickSpacing={30}
+            tickTextOffset={20}
           />
         </g>
       </svg>
