@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import Dropdown from 'react-dropdown';
 import 'react-dropdown/style.css';
-import { scaleLinear, extent, format } from 'd3';
+import { scaleLinear, extent, format, scaleOrdinal } from 'd3';
 import './App.css';
 import { AxisBottom } from './AxisBottom';
 import { AxisLeft } from './AxisLeft';
@@ -40,10 +40,12 @@ const App = () => {
   const xValue = d => d[xAttribute]
   const xAxisLabel = getLabel(xAttribute)
   const xAxisLabelOffset = 50;
+
   const yValue = d => d[yAttribute]
   const yAxisLabel = getLabel(yAttribute)
   const yAxisLabelOffset = 50;
 
+  const colorValue = d => d.species
 
   const xScale = scaleLinear()
     .domain(extent(data, xValue))
@@ -53,6 +55,10 @@ const App = () => {
   const yScale = scaleLinear()
     .domain(extent(data, yValue))
     .range([0, innerHeight])
+
+  const colorScale = scaleOrdinal()
+    .domain(data.map(colorValue))
+    .range(["#E6842A", "#137B80", "#8E6C8A"])
 
   return (
     <>
@@ -100,10 +106,12 @@ const App = () => {
           </text>
           <Marks
             data={data}
-            xScale={xScale}
-            yScale={yScale}
             xValue={xValue}
+            xScale={xScale}
             yValue={yValue}
+            yScale={yScale}
+            colorScale={colorScale}
+            colorValue={colorValue}
           />
         </g>
       </svg>
