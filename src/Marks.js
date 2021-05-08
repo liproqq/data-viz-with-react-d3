@@ -4,7 +4,11 @@ const projection = geoEqualEarth()
 const path = (geoPath(projection))
 const graticule = geoGraticule()
 
-export const Marks = ({ data: { countries, interiors } }) => (
+export const Marks = ({
+  worldAtlas: { countries, interiors },
+  cities,
+  sizeScale,
+  sizeValue }) => (
 
   <g className="mark" >
     <path className="sphere" d={path({ type: "Sphere" })} />
@@ -14,5 +18,9 @@ export const Marks = ({ data: { countries, interiors } }) => (
     ))}
     <path className="interiors" d={path(interiors)} />
     )
+    {cities.map(d => {
+      const [x, y] = projection([d.lng, d.lat])
+      return <circle cx={x} cy={y} r={sizeScale(sizeValue(d))} />
+    })}
   </g>
 );

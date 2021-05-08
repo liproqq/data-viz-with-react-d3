@@ -7,12 +7,16 @@ body {
   fill: #635f5d;
 }
 .mark .country {
-  fill: #137b80;
+  fill: #d8d8d8;
   stroke: #c0c0bb;
 }
 .mark .interiors {
   fill: none;
-  stroke: #199ba1;
+  stroke: #c9c1c1;
+}
+.mark circle {
+  fill: #61b3b3;
+  opacity: 0.3;
 }
 .mark .graticule {
   fill: none;
