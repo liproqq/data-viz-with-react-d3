@@ -18,12 +18,12 @@ const App = () => {
     return <pre>Loading</pre>
   }
 
-  const xValue = d => d.timestamp
+  const xValue = d => d["Reported Date"]
   const xAxisLabel = 'Time'
   const xAxisLabelOffset = 50;
 
-  const yValue = d => d.temperature
-  const yAxisLabel = 'Temperature'
+  const yValue = d => d['Total Dead and Missing']
+  const yAxisLabel = 'Dead and Missing'
   const yAxisLabelOffset = 50;
 
   const xScale = scaleLinear()
@@ -42,7 +42,7 @@ const App = () => {
         <AxisBottom
           xScale={xScale}
           innerHeight={innerHeight}
-          tickFormat={timeFormat("%a")} />
+          tickFormat={timeFormat("%m/%y")} />
         <AxisLeft
           innerWidth={innerWidth}
           yScale={yScale}
@@ -80,12 +80,3 @@ const App = () => {
 };
 
 export default App;
-
-// data.map((d, i) => (<path
-//   fill={d['RGB hex value']}
-//   d={pieArc({
-//     startAngle: i / data.length * 2 * Math.PI,
-//     endAngle: (i + 1) / data.length * 2 * Math.PI
-//   })
-// />
-// ))}
