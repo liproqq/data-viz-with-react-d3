@@ -1,21 +1,15 @@
-import { line, curveNatural } from "d3-shape";
-
-export const Marks = ({ data, xScale, yScale, xValue, yValue }) =>
+export const Marks = ({ binnedData, xScale, yScale, innerHeight }) =>
   <g className="mark">
-    {/* <path
-      fill="none"
-      stroke="black"
-      d={line()
-        .x(d => xScale(xValue(d)))
-        .y(d => yScale(yValue(d)))
-        .curve(curveNatural)(data)}
-    /> */}
     {
-      data.map(d =>
-      (<circle
-        cx={xScale(xValue(d))}
-        cy={yScale(yValue(d))}
-        r={2} />)
+      binnedData.map(d =>
+      (<rect
+        x={xScale(d.x0)}
+        y={yScale(d.y)}
+        width={xScale(d.x1) - xScale(d.x0)}
+        height={innerHeight - yScale(d.y)}>
+        <title>{`${d.y} on ${d.x0}`}</title>
+      </rect>
+      )
       )
     }
   </g>;

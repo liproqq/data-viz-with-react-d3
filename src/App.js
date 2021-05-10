@@ -1,4 +1,12 @@
-import { scaleLinear, scaleTime, extent, format, timeFormat } from 'd3';
+import {
+  scaleLinear,
+  max,
+  extent,
+  timeFormat,
+  histogram as bin,
+  timeMonths,
+  sum
+} from 'd3';
 import './App.css';
 import { AxisBottom } from './AxisBottom';
 import { AxisLeft } from './AxisLeft';
@@ -17,7 +25,6 @@ const App = () => {
   if (!data) {
     return <pre>Loading</pre>
   }
-
   const xValue = d => d["Reported Date"]
   const xAxisLabel = 'Time'
   const xAxisLabelOffset = 50;
@@ -26,13 +33,28 @@ const App = () => {
   const yAxisLabel = 'Dead and Missing'
   const yAxisLabelOffset = 50;
 
+
+
   const xScale = scaleLinear()
     .domain(extent(data, xValue))
     .range([0, innerWidth])
     .nice()
 
+
+  const [start, stop] = xScale.domain()
+
+  const binnedData = bin()
+    .value(xValue)
+    .domain(xScale.domain())
+    .thresholds(timeMonths(start, stop))(data)
+    .map(array => ({
+      y: sum(array, yValue), // y as in totalDeadAndMissing
+      x0: array.x0,
+      x1: array.x1
+    }))
+
   const yScale = scaleLinear()
-    .domain(extent(data, yValue))
+    .domain([0, max(binnedData, d => d.y)])
     .range([innerHeight, 0])
     .nice()
 
@@ -68,11 +90,10 @@ const App = () => {
           {yAxisLabel}
         </text>
         <Marks
-          data={data}
+          binnedData={binnedData}
           xScale={xScale}
           yScale={yScale}
-          xValue={xValue}
-          yValue={yValue}
+          innerHeight={innerHeight}
         />
       </g>
     </svg>
